@@ -7,12 +7,26 @@
         mc:Ignorable="d"
         Title="Launcher" Height="450" Width="685.87">
     <Grid>
-        <ComboBox HorizontalAlignment="Left" Margin="10,360,0,0" VerticalAlignment="Top" Width="184"/>
-        <Button Content="Save" HorizontalAlignment="Left" Margin="10,389,0,0" VerticalAlignment="Top" Width="52"/>
-        <Button Content="Edit" HorizontalAlignment="Left" Margin="78,389,0,0" VerticalAlignment="Top" Width="52"/>
-        <Button Content="Create" HorizontalAlignment="Left" Margin="142,389,0,0" VerticalAlignment="Top" Width="52"/>
-        <Button Content="Play" HorizontalAlignment="Left" Margin="277,360,0,0" VerticalAlignment="Top" Width="110" Height="49"/>
-        <Label Content="Welcome, {USER}." HorizontalAlignment="Left" Margin="554,371,0,0" VerticalAlignment="Top"/>
-
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Margin="10,0">
+                <ComboBox MinWidth="200"/>
+                <UniformGrid Columns="3" Margin="0,5,0,1">
+                    <Button Content="Save" Margin="0,0,5,0"/>
+                    <Button Content="Edit" Margin="0,0,5,0"/>
+                    <Button Content="Create"/>
+                </UniformGrid>
+            </StackPanel>
+            <Button Content="Play" Grid.Column="1" Margin="15,5"/>
+            <Label Content="Welcome, {USER}." Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
     </Grid>
 </Window>
