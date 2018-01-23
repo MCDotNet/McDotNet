@@ -1,0 +1,18 @@
+﻿<Window x:Class="McDotNet.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:McDotNet"
+        mc:Ignorable="d"
+        Title="Launcher" Height="450" Width="685.87">
+    <Grid>
+        <ComboBox HorizontalAlignment="Left" Margin="10,360,0,0" VerticalAlignment="Top" Width="184"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="10,389,0,0" VerticalAlignment="Top" Width="52"/>
+        <Button Content="Edit" HorizontalAlignment="Left" Margin="78,389,0,0" VerticalAlignment="Top" Width="52"/>
+        <Button Content="Create" HorizontalAlignment="Left" Margin="142,389,0,0" VerticalAlignment="Top" Width="52"/>
+        <Button Content="Play" HorizontalAlignment="Left" Margin="277,360,0,0" VerticalAlignment="Top" Width="110" Height="49"/>
+        <Label Content="Welcome, {USER}." HorizontalAlignment="Left" Margin="554,371,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
