@@ -69,6 +69,7 @@
     <Compile Include="Data\Artifact.cs" />
     <Compile Include="Data\Download.cs" />
     <Compile Include="Data\ArtifactBase.cs" />
+    <Compile Include="Data\ExtractInstructions.cs" />
     <Compile Include="Data\IndexArtifact.cs" />
     <Compile Include="Data\JarArtifact.cs" />
     <Compile Include="Data\JarDownload.cs" />
