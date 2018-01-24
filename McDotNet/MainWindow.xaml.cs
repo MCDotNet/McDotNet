@@ -28,8 +28,11 @@ namespace McDotNet
         }
         private string Version { get; set; } = "1.12.2";
         private Data.MinecraftVersion VersionData { get; set; }
+        private bool isWorking;
         private async void Button_ClickAsync(object sender, RoutedEventArgs e)
         {
+            PlayButton.IsEnabled = false;
+            isWorking = true;
             StatusContainer.Visibility = Visibility.Visible;
             await ChangeProgress("Downloading instruction data...", 5);
             HttpClient client = new HttpClient();
@@ -40,6 +43,19 @@ namespace McDotNet
                 VersionData = JsonConvert.DeserializeObject<Data.MinecraftVersion>(await response.Content.ReadAsStringAsync());
                 await ChangeProgress("Success !", 100);          
             }
+            PlayButton.IsEnabled = true;
+            isWorking = false;
+            await Task.Run(async () =>
+            {
+                await Task.Delay(2750);
+                if (!isWorking)
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        StatusContainer.Visibility = Visibility.Collapsed;
+                    });
+                }
+            });
         }
         private async Task ChangeProgress(string p = null, double? progress = null)
         {
