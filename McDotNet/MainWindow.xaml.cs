@@ -30,12 +30,30 @@ namespace McDotNet
         private Data.MinecraftVersion VersionData { get; set; }
         private async void Button_ClickAsync(object sender, RoutedEventArgs e)
         {
+            StatusContainer.Visibility = Visibility.Visible;
+            await ChangeProgress("Downloading instruction data...", 5);
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync("https://s3.amazonaws.com/Minecraft.Download/versions/" + Version + "/" + Version + ".json");
             if (response.IsSuccessStatusCode)
             {
+                await ChangeProgress("Deserializing received data...", 50);
                 VersionData = JsonConvert.DeserializeObject<Data.MinecraftVersion>(await response.Content.ReadAsStringAsync());
+                await ChangeProgress("Success !", 100);          
             }
+        }
+        private async Task ChangeProgress(string p = null, double? progress = null)
+        {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (p != null)
+                {
+                    Status.Content = p;
+                }
+                if (progress != null)
+                {
+                    StatusBar.Value = (double)progress;
+                }
+            });
         }
     }
 }
