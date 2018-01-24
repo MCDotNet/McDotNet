@@ -67,6 +67,7 @@
     </Compile>
     <Compile Include="Authentication.cs" />
     <Compile Include="Data\Artifact.cs" />
+    <Compile Include="Data\Classifer.cs" />
     <Compile Include="Data\Download.cs" />
     <Compile Include="Data\ArtifactBase.cs" />
     <Compile Include="Data\ExtractInstructions.cs" />
