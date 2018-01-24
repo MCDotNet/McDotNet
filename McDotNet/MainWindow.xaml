@@ -5,33 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:McDotNet"
         mc:Ignorable="d"
-        Title="Launcher" Height="450" Width="685.87"> <!-- truk window -->
-    <Grid> <!--élemen de bas pr metr dé control-->
+        Title="Launcher" Height="450" Width="685.87">
+    <!-- truk window -->
+    <Grid>
+        <!--élemen de bas pr metr dé control-->
         <Grid.RowDefinitions>
-            <RowDefinition/> <!-- c la ou ya lé aktualité le truc plu gro -->
-            <RowDefinition Height="Auto"/> <!-- la c 1 autr row, avek isi lé bouton é tou -->
+            <RowDefinition/>
+            <!-- c la ou ya lé aktualité le truc plu gro -->
+            <RowDefinition Height="Auto"/>
+            <!-- la c 1 autr row, avek isi lé bouton é tou -->
         </Grid.RowDefinitions>
-        <Border BorderBrush="Green" BorderThickness="2" Margin="25">
-            <StackPanel Orientation="Vertical">
-                <Label Height="50" VerticalAlignment="Top" 
-                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                       Background="#FF318131" Foreground="White" 
-                       FontSize="25" FontWeight="Bold"
-                       Content="News"/>
-                <TextBlock Margin="10">blah blah blahh --> blaaaaahhh</TextBlock>
-            </StackPanel>
-        </Border>
-        <UniformGrid Columns="3" Grid.Row="1"> <!-- donk sa réparti lé troi élémen (stac panel, buton et label) egalmen. la il é grid.row 1 donk en ba-->
-            <StackPanel Orientation="Vertical" Margin="10,0"> <!--margin 10,0 sa veu dir margin gaush é droit de 10 pixel, é margin de o é en ba de 0 pixel-->
-                <ComboBox/>
+        <UniformGrid Columns="3" Grid.Row="1">
+            <!-- donk sa réparti lé troi élémen (stac panel, buton et label) egalmen. la il é grid.row 1 donk en ba-->
+            <StackPanel Orientation="Vertical" Margin="10,11,10,0">
+                <!--margin 10,0 sa veu dir margin gaush é droit de 10 pixel, é margin de o é en ba de 0 pixel-->
+                <ComboBox>
+                    <Button Background="#FFDDDDDD" Content="1.12.2" IsDefault="True"/>
+                </ComboBox>
                 <UniformGrid Columns="3" Margin="0,5,0,1">
-                    <Button Content="Save" Margin="0,0,5,0"/> <!--margin a droit 5-->
-                    <Button Content="Edit" Margin="0,0,5,0"/> <!--margin a droit 5-->
-                    <Button Content="Create"/> <!--pa besoin margin-->
+                    <!--margin a droit 5-->
+                    <!--margin a droit 5-->
+                    <!--pa besoin margin-->
                 </UniformGrid>
             </StackPanel>
-            <Button Content="Play" Margin="15,5"/><!--margin horizontal 15 (gaush é droit), margin vertikal (o é ba) 5-->
-            <Label Content="Welcome, {USER}." HorizontalAlignment="Center" VerticalAlignment="Center"/><!--sa c ke de langlé c fasil-->
+            <Button Content="Play" Margin="15,5" Click="Button_Click"/>
+            <Label Content="Welcome, {USER}." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="62,11"/>
+            <!--margin horizontal 15 (gaush é droit), margin vertikal (o é ba) 5-->
+            <!--sa c ke de langlé c fasil-->
         </UniformGrid>
+        <ProgressBar HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="678" Margin="0,10,0,0"/>
     </Grid>
 </Window>
