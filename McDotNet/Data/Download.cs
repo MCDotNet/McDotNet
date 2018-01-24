@@ -13,7 +13,7 @@ namespace McDotNet.Data
         /// <summary>
         /// Can be null ! Used for downloading native files
         /// </summary>
-        private Artifact NativeFile { get; set; }
+        public Artifact NativeFile { get; set; }
         [Newtonsoft.Json.JsonConstructor]
         public Download(Classifer classifiers)
         {

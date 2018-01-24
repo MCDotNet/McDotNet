@@ -12,6 +12,6 @@ namespace McDotNet.Data
         [Newtonsoft.Json.JsonProperty("downloads")] // Plural but it's only one object...
         public Download Download { get; set; }
         [Newtonsoft.Json.JsonProperty("extract")] 
-        public ExtractInstructions ExtractRules { get; set; }
+        public ExtractRules ExtractInstructions { get; set; }
     }
 }
