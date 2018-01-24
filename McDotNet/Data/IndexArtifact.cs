@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace McDotNet.Data
 {
-    public class SizedArtifact : Artifact // Inherits from Artifact.
+    public class IndexArtifact : SizedArtifactBase
     {
-        public long TotalSize { get; set; }
+        public string Id { get; set; }
     }
 }

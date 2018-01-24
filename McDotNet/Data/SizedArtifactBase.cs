@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace McDotNet.Data
 {
-    public class JarArtifact : ArtifactBase
+    public abstract class SizedArtifactBase : ArtifactBase
     {
-        
+        public long TotalSize { get; set; }
     }
 }

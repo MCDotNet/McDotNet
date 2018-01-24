@@ -9,7 +9,7 @@ namespace McDotNet.Data
     public class MinecraftVersion
     {
         public List<Library> Libraries { get; set; } = new List<Library>();
-        public SizedArtifact AssetIndex { get; set; }
+        public IndexArtifact AssetIndex { get; set; }
         public JarDownload Downloads { get; set; }
         public string MainClass { get; set; }
         public string MinecraftArguments { get; set; }

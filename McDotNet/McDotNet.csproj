@@ -68,12 +68,13 @@
     <Compile Include="Data\Artifact.cs" />
     <Compile Include="Data\Download.cs" />
     <Compile Include="Data\ArtifactBase.cs" />
+    <Compile Include="Data\IndexArtifact.cs" />
     <Compile Include="Data\JarArtifact.cs" />
     <Compile Include="Data\JarDownload.cs" />
     <Compile Include="Data\Library.cs" />
     <Compile Include="Data\LoggingSystem.cs" />
     <Compile Include="Data\MinecraftVersion.cs" />
-    <Compile Include="Data\SizedArtifact.cs" />
+    <Compile Include="Data\SizedArtifactBase.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

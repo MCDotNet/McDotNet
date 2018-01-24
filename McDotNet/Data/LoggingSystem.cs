@@ -13,8 +13,8 @@ namespace McDotNet.Data
         public class Log
         {
             public Artifact File { get; set; }
-        }
-        public string Arguemnt { get; set; }
-        public string Type { get; set; }
+            public string Argument { get; set; }
+            public string Type { get; set; }
+        }      
     }
 }
