@@ -15,9 +15,9 @@ namespace McDotNet.Data
         /// </summary>
         private Artifact NativeFile { get; set; }
         [Newtonsoft.Json.JsonConstructor]
-        public Download(Classifer classifers)
+        public Download(Classifer classifiers)
         {
-            NativeFile = classifers.Artifact;
+            NativeFile = classifiers?.Artifact ?? null;
         }
         public ConcurrentBag<string> GetUrlsToDownload()
         {
