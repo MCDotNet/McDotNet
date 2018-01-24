@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace McDotNet.Data
 {
-    public class Download
+    public class SizedArtifact : Artifact // Inherits from Artifact.
     {
-        public virtual Artifact Artifact { get; set; }
+        public long TotalSize { get; set; }
     }
 }

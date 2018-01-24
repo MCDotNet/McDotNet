@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace McDotNet.Data
 {
-    public class Download
+    public abstract class ArtifactBase
     {
-        public virtual Artifact Artifact { get; set; }
+        public long Size { get; set; }
+        public string Sha1 { get; set; }
+        public string Url { get; set; }
     }
 }

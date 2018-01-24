@@ -6,8 +6,5 @@ using System.Threading.Tasks;
 
 namespace McDotNet.Data
 {
-    public class Download
-    {
-        public virtual Artifact Artifact { get; set; }
-    }
+    public class JarArtifact : ArtifactBase { }
 }
