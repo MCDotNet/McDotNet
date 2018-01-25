@@ -70,7 +70,8 @@ namespace McDotNet
                 Arguments += " -cp ";
                 foreach (var library in VersionData.Libraries)
                 {
-                    
+                    if(library.Download.Artifact.Url.Substring(library.Download.Artifact.Url.LastIndexOf("/") + 1,
+    (library.Download.Artifact.Url.Length - library.Download.Artifact.Url.LastIndexOf("/") - 1))!=null) { 
                     var completePath = path + library.Download.Artifact.Url.Substring(library.Download.Artifact.Url.LastIndexOf("/") + 1,
     (library.Download.Artifact.Url.Length - library.Download.Artifact.Url.LastIndexOf("/") - 1));
                     var newBarValue = StatusBar.Value + incrementValue;
@@ -84,6 +85,7 @@ namespace McDotNet
                     else
                     {
                         await ChangeProgress(progress: newBarValue);
+                    }
                     }
                     Arguments += Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet\\versions\\" + Version + "\\" + Version + ".jar";
                 }
