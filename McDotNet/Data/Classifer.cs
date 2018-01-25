@@ -9,7 +9,7 @@ namespace McDotNet.Data
 {
     public class Classifer
     {
-        [JsonProperty("native-windows")]
+        [JsonProperty("natives-windows")]
         public Artifact Artifact { get; set; }       
     }
 }
