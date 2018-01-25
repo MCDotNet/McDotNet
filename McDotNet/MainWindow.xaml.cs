@@ -18,6 +18,7 @@ using System.Net;
 using McDotNet;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 
 namespace McDotNet
 {
@@ -64,7 +65,7 @@ namespace McDotNet
                 }
                 int downloadAdd = 80;
                 float incrementValue =  downloadAdd / VersionData.Libraries.Count; // progress bar goes 90
-                Arguments += " -Djava.library.path=" + pathbutimsad;
+                Arguments += "-Djava.library.path=" + pathbutimsad;
                 Arguments += " -Dminecraft.client.jar=" + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet\\versions\\" + Version + "\\" + Version + ".jar";
                 Arguments += " -cp ";
                 foreach (var library in VersionData.Libraries)
@@ -92,17 +93,35 @@ namespace McDotNet
                 await ChangeProgress("Downloading Minecraft...", StatusBar.Value+5);
                 await downloader.DownloadFileTaskAsync("http://s3.amazonaws.com/Minecraft.Download/versions/" + Version + "/" + Version + ".jar",
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet\\versions\\" + Version + "\\" + Version + ".jar");
-                await ChangeProgress("Connecting...", StatusBar.Value + 5);
-                Arguments += " net.minecraft.client.main.Main --version " + Version;
-                if (!Properties.Settings.Default.offline_mode) { //wait ur offline lol
+                await ChangeProgress("Logging In...", StatusBar.Value + 5);
+                Arguments += " " + VersionData.MainClass +" --version " + Version;
+                if (!Properties.Settings.Default.offline_mode) { //wait ur online lol
                     JArray auth = await Authentication.Login(Properties.Settings.Default.username, Properties.Settings.Default.password);
-                    //got to sleep bye
+                    Arguments += " --accessToken " + auth["accessToken"];
+                    await ChangeProgress("Logging In...", StatusBar.Value + 5);
+                    Arguments += " --username " + auth["availableProfiles"]["name"];
+                    Arguments += " --uuid " + auth["availableProfiles"]["id"];
+                    await ChangeProgress("Logging In...", StatusBar.Value + 5);
                 } else {
                     Arguments += " --username " + Properties.Settings.Default.username;
+                    await ChangeProgress("Logging In...", StatusBar.Value + 5);
                 }
+                if (!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet\\assets"))
+                {
+                    Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet\\assets");
+                }
+                await ChangeProgress("Setting Up...", StatusBar.Value + 5);
+                Arguments += " --assetsDir " + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet\\assets";
+                await ChangeProgress("Setting Up...", StatusBar.Value + 5);
+                Arguments += " --assetsIndex " + VersionData.AssetIndex.Id;
                 Arguments += " --gameDir " + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet";
                 Arguments += " --userType mojang --versionType release";
-
+                await ChangeProgress("Setting Up...", StatusBar.Value + 5);
+                Process Minecraft = new Process();
+                Minecraft.StartInfo.FileName = "javaw.exe"; //not the full application path
+                Minecraft.StartInfo.Arguments = Arguments;
+                await ChangeProgress("Starting!", StatusBar.Value + 7);
+                Minecraft.Start();
                 await ChangeProgress("Success !", 100);
                 
             }
