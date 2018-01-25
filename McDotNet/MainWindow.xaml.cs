@@ -63,7 +63,7 @@ namespace McDotNet
                 {
                     Directory.CreateDirectory(path);
                 }
-                int downloadAdd = 3;
+                int downloadAdd = 15;
                 float incrementValue =  downloadAdd / VersionData.Libraries.Count; // progress bar goes 90
                 Arguments += "-Djava.library.path=" + pathbutimsad;
                 Arguments += " -Dminecraft.client.jar=" + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet\\versions\\" + Version + "\\" + Version + ".jar";
