@@ -63,7 +63,7 @@ namespace McDotNet
                 {
                     Directory.CreateDirectory(path);
                 }
-                int downloadAdd = 80;
+                int downloadAdd = 3;
                 float incrementValue =  downloadAdd / VersionData.Libraries.Count; // progress bar goes 90
                 Arguments += "-Djava.library.path=" + pathbutimsad;
                 Arguments += " -Dminecraft.client.jar=" + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet\\versions\\" + Version + "\\" + Version + ".jar";
@@ -71,13 +71,14 @@ namespace McDotNet
                 foreach (var library in VersionData.Libraries)
                 {
                     
-                    Uri uri = new Uri(library.Download.Artifact.Url);
-                    var completePath = path + System.IO.Path.GetFileName(uri.LocalPath);
+                    var completePath = path + library.Download.Artifact.Url.Substring(library.Download.Artifact.Url.LastIndexOf("/") + 1,
+    (library.Download.Artifact.Url.Length - library.Download.Artifact.Url.LastIndexOf("/") - 1));
                     var newBarValue = StatusBar.Value + incrementValue;
                     Arguments += completePath + ";";
                     if (!File.Exists(completePath))
                     {
-                        await ChangeProgress("Downloading " + System.IO.Path.GetFileName(uri.LocalPath), StatusBar.Value + incrementValue);
+                        await ChangeProgress("Downloading " + library.Download.Artifact.Url.Substring(library.Download.Artifact.Url.LastIndexOf("/") + 1,
+    (library.Download.Artifact.Url.Length - library.Download.Artifact.Url.LastIndexOf("/") - 1)), StatusBar.Value + incrementValue);
                         await downloader.DownloadFileTaskAsync(library.Download.Artifact.Url, completePath);
                     } 
                     else
@@ -90,15 +91,15 @@ namespace McDotNet
                 await downloader.DownloadFileTaskAsync("https://launchermeta.mojang.com/mc/log_configs/client-1.12.xml/ef4f57b922df243d0cef096efe808c72db042149/client-1.12.xml" + Version + "/" + Version + ".jar",
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet\\versions\\" + Version + "\\logger\\" + Version + ".xml");
                 Arguments += " -Dlog4j.configurationFile=" + Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet\\versions\\" + Version + "\\logger\\" + Version + ".xml";
-                await ChangeProgress("Downloading Minecraft...", StatusBar.Value+5);
+                await ChangeProgress("Downloading Minecraft...", StatusBar.Value+ 0.25);
                 await downloader.DownloadFileTaskAsync("http://s3.amazonaws.com/Minecraft.Download/versions/" + Version + "/" + Version + ".jar",
                     Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet\\versions\\" + Version + "\\" + Version + ".jar");
-                await ChangeProgress("Logging In...", StatusBar.Value + 5);
+                await ChangeProgress("Logging In...", StatusBar.Value + 0.25);
                 Arguments += " " + VersionData.MainClass +" --version " + Version;
                 if (!Properties.Settings.Default.offline_mode) { //wait ur online lol
                     JArray auth = await Authentication.Login(Properties.Settings.Default.username, Properties.Settings.Default.password);
                     Arguments += " --accessToken " + auth["accessToken"];
-                    await ChangeProgress("Logging In...", StatusBar.Value + 5);
+                    await ChangeProgress("Logging In...", StatusBar.Value + 0.25);
                     Arguments += " --username " + auth["availableProfiles"]["name"];
                     Arguments += " --uuid " + auth["availableProfiles"]["id"];
                     await ChangeProgress("Logging In...", StatusBar.Value + 5);
