@@ -1,0 +1,19 @@
+﻿<Window x:Class="McDotNet.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:McDotNet"
+        mc:Ignorable="d mc" UseLayoutRounding="True"
+        Title="Login" Height="172" Width="228.5">
+    <Grid Margin="0,0,2,-1">
+        <TextBox HorizontalAlignment="Left" Height="18" Margin="95,5,0,0" TextWrapping="Wrap" x:Name="User" Text="Notch" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Email/Username:" HorizontalAlignment="Left" Margin="-4,1,0,0" VerticalAlignment="Top"/>
+        <PasswordBox x:Name="Pass" HorizontalAlignment="Left" Margin="95,28,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Password:" HorizontalAlignment="Left" Margin="25,24,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="Offline Mode" HorizontalAlignment="Left" Margin="62,55,0,0" x:Name="OfflineMode" VerticalAlignment="Top" Checked="CheckBox_Checked_1"/>
+        <Button Content="Login" HorizontalAlignment="Left" Margin="71,107,0,0" VerticalAlignment="Top" Width="74" Height="21" Click="Button_Click"/>
+        <CheckBox Content="Remember Me" x:Name="RememberMe" HorizontalAlignment="Left" Margin="62,75,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked"/>
+
+    </Grid>
+</Window>

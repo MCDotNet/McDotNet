@@ -23,7 +23,7 @@
                        Background="#FF318131" Foreground="White" 
                        FontSize="25" FontWeight="Bold"
                        Content="News"/>
-                <TextBlock Margin="10">blah blah blahh --> blaaaaahhh</TextBlock>
+                <TextBlock Margin="10">TODO : Add News</TextBlock>
             </StackPanel>
         </Border>
         
