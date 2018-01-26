@@ -72,7 +72,7 @@ namespace McDotNet
                 {
                     if(library.Download.Artifact.Url.Substring(library.Download.Artifact.Url.LastIndexOf("/") + 1,
     (library.Download.Artifact.Url.Length - library.Download.Artifact.Url.LastIndexOf("/") - 1))!=null) { 
-                    var completePath = path + library.Download.Artifact.Url.Substring(library.Download.Artifact.Url.LastIndexOf("/") + 1,
+                    var c ompletePath = path + library.Download.Artifact.Url.Substring(library.Download.Artifact.Url.LastIndexOf("/") + 1,
     (library.Download.Artifact.Url.Length - library.Download.Artifact.Url.LastIndexOf("/") - 1));
                     var newBarValue = StatusBar.Value + incrementValue;
                     Arguments += completePath + ";";
