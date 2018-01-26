@@ -23,7 +23,8 @@ using System.Diagnostics;
 namespace McDotNet
 {
     /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
+    /// The magic happens here!
+    /// also im the greatest u all r noobs
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -46,7 +47,6 @@ namespace McDotNet
         private string Version { get; set; } = "1.12.2";
         private Data.MinecraftVersion VersionData { get; set; }
         private bool isWorking;
-        //java is  a meanie so it want to donwload mor e ram
         private string Arguments { get; set; } = "";
         private async void Button_ClickAsync(object sender, RoutedEventArgs e)
         {
@@ -78,6 +78,7 @@ namespace McDotNet
                     bool downloadingAlready = false;
                     foreach (var url in library.Download.GetUrlsToDownload())
                     {
+                        if (library.Download.NativeFile != null) {
                         int index = url.LastIndexOf("/");
                         var completePath = path + url.Substring(index + 1, (url.Length - index - 1));
                         var newBarValue = StatusBar.Value + incrementValue;
@@ -96,6 +97,14 @@ namespace McDotNet
                             await ChangeProgress(progress: newBarValue);
                         }
                         Arguments += appData + "\\.mcdotnet\\versions\\" + Version + "\\" + Version + ".jar";
+                        } else
+                        {
+                            /// <rant>
+                            /// This is retarded, Why do you put DLLs in JAR files?!
+                            /// </rant>
+
+
+                        }
                     }
                 }
                 Arguments += " -Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
@@ -115,8 +124,8 @@ namespace McDotNet
                 Arguments += " " + VersionData.MainClass + " --version " + Version;
                 if (!LoginData.IsOfflineMode)
                 {   //wait ur online lol haha xddd
-                    JArray auth = await Authentication.Login(LoginData.Username, LoginData.Password);
-                    Arguments += " --accessToken " + auth["accessToken"];
+                    JArray auth = await Authentication.Login(LoginData.Username, LoginData.Password); //Login
+                    Arguments += " --accessToken " + auth["accessToken"]; //not stealing your pass ;-)
                     await ChangeProgress("Logging In...", StatusBar.Value + 0.25);
                     Arguments += " --username " + auth["availableProfiles"]["name"];
                     Arguments += " --uuid " + auth["availableProfiles"]["id"];
@@ -145,7 +154,7 @@ namespace McDotNet
                 await ChangeProgress("Starting!", StatusBar.Value + 7);
 
                 Minecraft.Start();
-                await ChangeProgress("Success !", 100);
+                await ChangeProgress("Success, Enjoy your game", 100);
 
             }
             PlayButton.IsEnabled = true;
