@@ -65,8 +65,9 @@ namespace McDotNet
                 var path = appData
                     + "\\.mcdotnet\\versions\\" + Version + "\\libs\\";
                 var pathbutimsad = appData
-                    + "\\.mcdotnet\\versions\\" + Version + "\\libs";
+                    + "\\.mcdotnet\\versions\\" + Version + "\\natives";
                 CreateDirectoryIfNotPresent(path);
+                CreateDirectoryIfNotPresent(pathbutimsad);
                 float downloadAdd = 57.25F;
                 float incrementValue = downloadAdd / VersionData.Libraries.Count; // progress bar goes smth
                 Arguments += "-Djava.library.path=" + pathbutimsad;
