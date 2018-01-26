@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using McDotNet.Data;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,13 @@ namespace McDotNet
     {
         public static async Task<JArray> Login(string user, string password)
         {
-            string request = "{'agent': {'name': 'Minecraft','version': 1},'username': " + user + ",'password': '" + password + "'}";
-            using (var AUTHSERVICE = new HttpClient())
+            string request = JsonConvert.SerializeObject(new AuthenticationHeader(user, password).ConvertForJson());
+            using (var authService = new HttpClient())
             {
-                var response = await AUTHSERVICE.PostAsync(
+                var response = await authService.PostAsync(
                     "https://authserver.mojang.com/authenticate",
                      new StringContent(request, Encoding.UTF8, "application/json"));
+                var str = await response.Content.ReadAsStringAsync();
                 return JArray.Parse(request);
             }
         }

@@ -5,15 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:McDotNet"
         mc:Ignorable="d mc" UseLayoutRounding="True"
-        Title="Login" Height="172" Width="228.5">
-    <Grid Margin="0,0,2,-1">
-        <TextBox HorizontalAlignment="Left" Height="18" Margin="95,5,0,0" TextWrapping="Wrap" x:Name="User" Text="Notch" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Email/Username:" HorizontalAlignment="Left" Margin="-4,1,0,0" VerticalAlignment="Top"/>
-        <PasswordBox x:Name="Pass" HorizontalAlignment="Left" Margin="95,28,0,0" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Password:" HorizontalAlignment="Left" Margin="25,24,0,0" VerticalAlignment="Top"/>
-        <CheckBox Content="Offline Mode" HorizontalAlignment="Left" Margin="62,55,0,0" x:Name="OfflineMode" VerticalAlignment="Top" Checked="CheckBox_Checked_1"/>
-        <Button Content="Login" HorizontalAlignment="Left" Margin="71,107,0,0" VerticalAlignment="Top" Width="74" Height="21" Click="Button_Click"/>
-        <CheckBox Content="Remember Me" x:Name="RememberMe" HorizontalAlignment="Left" Margin="62,75,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked"/>
-
+        Title="Login" Height="217.508" Width="277.203">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="12*"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBox x:Name="User" Text="Notch" Grid.Column="1" VerticalAlignment="Center"/>
+            <Label Content="Email/Username:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <PasswordBox x:Name="Pass" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"/>
+            <Label Content="Password:" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        </Grid>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+            <CheckBox Content="Offline Mode" x:Name="OfflineMode" Checked="CheckBox_Checked_1" Margin="0,5"/>
+            <CheckBox Content="Remember Me" x:Name="RememberMe" Checked="CheckBox_Checked" Margin="0,5"/>
+            <Button Content="Login"  Click="Button_Click" Margin="0,5"/>
+        </StackPanel>
     </Grid>
 </Window>

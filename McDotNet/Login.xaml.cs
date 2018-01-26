@@ -25,7 +25,7 @@ namespace McDotNet
             InitializeComponent();
             if (Properties.Settings.Default.remember)
             {
-                this.Close();
+                // this.Close();
             }
         }
 
@@ -36,17 +36,24 @@ namespace McDotNet
 
         private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
         {
-            
+            Pass.IsEnabled = User.IsEnabled = false;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (RememberMe.IsChecked.Value) {
-                Properties.Settings.Default.offline_mode = OfflineMode.IsChecked.Value;
-                Properties.Settings.Default.password = Pass.Password;
-                Properties.Settings.Default.username = User.Text;
+                Properties.Settings.Default.offline_mode = LoginData.IsOfflineMode = OfflineMode.IsChecked.Value;
+                Properties.Settings.Default.password = LoginData.Password = Pass.Password;
+                Properties.Settings.Default.username = LoginData.Username = User.Text;
                 Properties.Settings.Default.remember = RememberMe.IsChecked.Value;
             }
+            else
+            {
+                LoginData.IsOfflineMode = OfflineMode.IsChecked.Value;
+                LoginData.Password = Pass.Password;
+                LoginData.Username = User.Text;
+            }
+            Properties.Settings.Default.Save();
             this.Close();
         }
     }
