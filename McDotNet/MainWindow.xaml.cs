@@ -163,7 +163,7 @@ namespace McDotNet
                 }
                 else
                 {
-                    Arguments += " --username " + Properties.Settings.Default.username;
+                    Arguments += " --username " + LoginData.Username;
                     await ChangeProgress(progress: StatusBar.Value + 5);
                 }
                 string assetsPath = appData + "\\.mcdotnet\\assets";
