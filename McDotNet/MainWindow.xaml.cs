@@ -36,7 +36,9 @@ namespace McDotNet
                 Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\.mcdotnet\\versions\\");
             }
             InitializeComponent();
+            onStart();
             this.Loaded += ShowLoginPage;
+            
         }
 
         private void ShowLoginPage(object sender, RoutedEventArgs e)
@@ -49,13 +51,19 @@ namespace McDotNet
         private Data.MinecraftVersion VersionData { get; set; }
         private bool isWorking;
         private string Arguments { get; set; } = "-Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
+        private async void onStart()
+        {
+            Welcometxt.Content = "Hi!";
+        }
         private async void Button_ClickAsync(object sender, RoutedEventArgs e)
         {
+            onStart();
             WebClient downloader = new WebClient();
             PlayButton.IsEnabled = false;
             isWorking = true;
             StatusContainer.Visibility = Visibility.Visible;
             await ChangeProgress("Getting libraries...", 5);
+           
             HttpClient client = new HttpClient();
             HttpResponseMessage response = await client.GetAsync("https://s3.amazonaws.com/Minecraft.Download/versions/" + Version + "/" + Version + ".json");
             if (response.IsSuccessStatusCode)

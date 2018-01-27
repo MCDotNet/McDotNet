@@ -51,7 +51,7 @@
             </StackPanel>
             <Button Content="Play" Margin="15,5" Click="Button_ClickAsync" x:Name="PlayButton"/>
             <!--margin horizontal 15 (gaush é droit), margin vertikal (o é ba) 5-->
-            <Label Content="Welcome, {USER}." HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Content="Welcome, {USER}." x:Name="Welcometxt" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <!--sa c ke de langlé c fasil-->
         </UniformGrid>
     </Grid>
