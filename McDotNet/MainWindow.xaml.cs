@@ -120,9 +120,10 @@ namespace McDotNet
                             try
                             {
                                 ZipFile.ExtractToDirectory(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp\\" + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)), appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\");
-                            } catch
+                            }
+                            catch (IOException)
                             {
-                                //dont care
+                                // dont care
                             }
                             if (Directory.Exists(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\META-INF"))
                             {
