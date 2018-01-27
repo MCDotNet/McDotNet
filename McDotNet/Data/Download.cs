@@ -28,7 +28,7 @@ namespace McDotNet.Data
             }
             if (NativeFile != null)
             {
-                concurrent.Add(new Url(NativeFile.Url,false));
+                concurrent.Add(new Url(NativeFile.Url,true));
             }
             return concurrent;
         }
