@@ -33,12 +33,7 @@ namespace McDotNet
         {
             
         }
-
-        private void CheckBox_Checked_1(object sender, RoutedEventArgs e)
-        {
-            Pass.IsEnabled = User.IsEnabled = false;
-        }
-
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (RememberMe.IsChecked.Value) {

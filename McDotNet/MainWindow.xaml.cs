@@ -175,7 +175,12 @@ namespace McDotNet
                 }
             });
         }
-
+        /// <summary>
+        /// Gets the complete path on the disk drive of a download <paramref name="url"/>.
+        /// </summary>
+        /// <param name="url">The URL to use</param>
+        /// <param name="customPath">If the file isn't in library : put a custom path to verify</param>
+        /// <returns>The complete path DUH CAN YOU READ THE FUNCTION NAME ?</returns>
         private string GetCompletePath(string url, string customPath = null)
         {           
             var path = customPath ?? Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)

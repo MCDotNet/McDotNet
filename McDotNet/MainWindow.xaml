@@ -10,7 +10,7 @@
     <Grid>
         <!--élemen de bas pr metr dé control-->
         <Grid.RowDefinitions>
-            <RowDefinition Height="321*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <!-- c la ou ya lé aktualité le truc plu gro -->
             <RowDefinition Height="Auto"/>

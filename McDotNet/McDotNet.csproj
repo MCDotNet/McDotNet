@@ -91,6 +91,7 @@
     <Compile Include="Data\MinecraftVersion.cs" />
     <Compile Include="Data\Profile.cs" />
     <Compile Include="Data\SizedArtifactBase.cs" />
+    <Compile Include="InverseBoolConverter.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -127,6 +128,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Warning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
