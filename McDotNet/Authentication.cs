@@ -12,7 +12,7 @@ namespace McDotNet
 {
     class Authentication
     {
-        public static async Task<JArray> Login(string user, string password)
+        public static async Task<AuthenticationResponse> Login(string user, string password)
         {
             string request = JsonConvert.SerializeObject(new AuthenticationHeader(user, password).ConvertForJson());
             using (var authService = new HttpClient())
@@ -21,7 +21,14 @@ namespace McDotNet
                     "https://authserver.mojang.com/authenticate",
                      new StringContent(request, Encoding.UTF8, "application/json"));
                 var str = await response.Content.ReadAsStringAsync();
-                return JArray.Parse(request);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException($"Password isn't maybe right, error code : {response.StatusCode}");
+                }
+                else
+                {
+                    return JsonConvert.DeserializeObject<AuthenticationResponse>(str);
+                }
             }
         }
     }

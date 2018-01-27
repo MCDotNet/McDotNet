@@ -89,6 +89,7 @@
     <Compile Include="Data\Library.cs" />
     <Compile Include="Data\LoggingSystem.cs" />
     <Compile Include="Data\MinecraftVersion.cs" />
+    <Compile Include="Data\Profile.cs" />
     <Compile Include="Data\SizedArtifactBase.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>

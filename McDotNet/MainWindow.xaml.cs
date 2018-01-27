@@ -73,37 +73,41 @@ namespace McDotNet
                 Arguments += "-Djava.library.path=" + pathbutimsad;
                 Arguments += " -Dminecraft.client.jar=" + appData + "\\.mcdotnet\\versions\\" + Version + "\\" + Version + ".jar";
                 Arguments += " -cp ";
+                string versionPath = appData + "\\.mcdotnet\\versions\\" + Version + "\\";
                 foreach (var library in VersionData.Libraries)
                 {
                     bool downloadingAlready = false;
                     foreach (var url in library.Download.GetUrlsToDownload())
                     {
-                        if (library.Download.NativeFile != null) {
-                        int index = url.LastIndexOf("/");
-                        var completePath = path + url.Substring(index + 1, (url.Length - index - 1));
                         var newBarValue = StatusBar.Value + incrementValue;
-                        Arguments += completePath + ";";
-                        if (!File.Exists(completePath))
+                        if (!url.IsNative)
                         {
-                            if (!downloadingAlready)
+                            int index = url.DownloadUrl.LastIndexOf("/");
+                            var completePath = GetCompletePath(url);
+
+                            Arguments += completePath + ";";
+                            if (!File.Exists(completePath))
                             {
-                                await ChangeProgress("Downloading " + url.Substring(index + 1, (url.Length - index - 1)), StatusBar.Value + incrementValue);
-                                downloadingAlready = true;
+                                if (!downloadingAlready)
+                                {
+                                    await ChangeProgress("Downloading " + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)), StatusBar.Value + incrementValue);
+                                    downloadingAlready = true;
+                                }
+                                await downloader.DownloadFileTaskAsync(url, completePath);
                             }
-                            await downloader.DownloadFileTaskAsync(url, completePath);
+                            else
+                            {
+                                await ChangeProgress(progress: newBarValue);
+                            }
+                            Arguments += versionPath + Version + ".jar";
                         }
                         else
                         {
                             await ChangeProgress(progress: newBarValue);
-                        }
-                        Arguments += appData + "\\.mcdotnet\\versions\\" + Version + "\\" + Version + ".jar";
-                        } else
-                        {
                             /// <rant>
                             /// This is retarded, Why do you put DLLs in JAR files?!
+                            /// RETARDE
                             /// </rant>
-
-
                         }
                     }
                 }
@@ -115,20 +119,20 @@ namespace McDotNet
                 Arguments += " -Dlog4j.configurationFile=" + loggerPath + Version + ".xml";
                 await ChangeProgress("Downloading Minecraft...", StatusBar.Value + 0.25);
                 string minecraftUrl = "http://s3.amazonaws.com/Minecraft.Download/versions/" + Version + "/" + Version + ".jar";
-                if (!File.Exists(minecraftUrl))
+                if (!File.Exists(GetCompletePath(minecraftUrl,versionPath)))
                 {
                     await downloader.DownloadFileTaskAsync(minecraftUrl,
-                    appData + "\\.mcdotnet\\versions\\" + Version + "\\" + Version + ".jar");
+                    versionPath + Version + ".jar");
                 }
                 await ChangeProgress("Logging In...", StatusBar.Value + 0.25);
                 Arguments += " " + VersionData.MainClass + " --version " + Version;
                 if (!LoginData.IsOfflineMode)
                 {   //wait ur online lol haha xddd
-                    JArray auth = await Authentication.Login(LoginData.Username, LoginData.Password); //Login
-                    Arguments += " --accessToken " + auth["accessToken"]; //not stealing your pass ;-)
+                    var auth = await Authentication.Login(LoginData.Username, LoginData.Password); //Login
+                    Arguments += " --accessToken " + auth.AccessToken; //not stealing your pass ;-)
                     await ChangeProgress("Logging In...", StatusBar.Value + 0.25);
-                    Arguments += " --username " + auth["availableProfiles"]["name"];
-                    Arguments += " --uuid " + auth["availableProfiles"]["id"];
+                    Arguments += " --username " + auth.SelectedProfile.Name;
+                    Arguments += " --uuid " + auth.SelectedProfile.Id;
                     await ChangeProgress("Logging In...", StatusBar.Value + 5);
                 }
                 else
@@ -138,7 +142,7 @@ namespace McDotNet
                 }
                 string assetsPath = appData + "\\.mcdotnet\\assets";
                 CreateDirectoryIfNotPresent(assetsPath);
-                
+
                 await ChangeProgress("Setting Up...", StatusBar.Value + 5);
                 Arguments += " --assetsDir " + assetsPath;
 
@@ -171,6 +175,15 @@ namespace McDotNet
                 }
             });
         }
+
+        private string GetCompletePath(string url, string customPath = null)
+        {           
+            var path = customPath ?? Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+            + "\\.mcdotnet\\versions\\" + Version + "\\libs\\";
+            int index = url.LastIndexOf("/");
+            return path + url.Substring(index + 1, (url.Length - index - 1));
+        }
+
         private string CreateDirectoryIfNotPresent(string d)
         {
             if (!Directory.Exists(d))

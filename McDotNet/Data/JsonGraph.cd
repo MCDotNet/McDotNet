@@ -13,7 +13,7 @@
   <Class Name="McDotNet.Data.Library">
     <Position X="8" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAIAEAAAAAAAA=</HashCode>
       <FileName>Data\Library.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -29,8 +29,15 @@
   </Class>
   <Class Name="McDotNet.Data.Download" Collapsed="true">
     <Position X="8" Y="2.75" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="McDotNet.Data.Download.Url" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Data\Download.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAQAAAAAACAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Data\Download.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

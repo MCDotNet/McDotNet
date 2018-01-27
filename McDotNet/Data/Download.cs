@@ -19,18 +19,30 @@ namespace McDotNet.Data
         {
             NativeFile = classifiers?.Artifact ?? null;
         }
-        public ConcurrentBag<string> GetUrlsToDownload()
+        public ConcurrentBag<Url> GetUrlsToDownload()
         {
-            var concurrent = new ConcurrentBag<string>();
+            var concurrent = new ConcurrentBag<Url>();
             if (Artifact != null)
             {
-                concurrent.Add(Artifact.Url);
+                concurrent.Add(new Url(Artifact.Url, false));
             }
             if (NativeFile != null)
             {
-                concurrent.Add(NativeFile.Url);
+                concurrent.Add(new Url(NativeFile.Url,false));
             }
             return concurrent;
+        }
+        public struct Url
+        {
+            public bool IsNative { get; set; }
+            public string DownloadUrl { get; set; }
+            public override string ToString() => DownloadUrl;
+            public Url(string url, bool native)
+            {
+                IsNative = native;
+                DownloadUrl = url;
+            }
+            public static implicit operator string(Url u) => u.ToString();
         }
     }
 }
