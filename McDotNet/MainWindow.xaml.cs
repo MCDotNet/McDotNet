@@ -48,7 +48,7 @@ namespace McDotNet
         private string Version { get; set; } = "1.12.2";
         private Data.MinecraftVersion VersionData { get; set; }
         private bool isWorking;
-        private string Arguments { get; set; } = "";
+        private string Arguments { get; set; } = "-Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
         private async void Button_ClickAsync(object sender, RoutedEventArgs e)
         {
             WebClient downloader = new WebClient();
@@ -71,7 +71,7 @@ namespace McDotNet
                 CreateDirectoryIfNotPresent(pathbutimsad);
                 float downloadAdd = 57.25F;
                 float incrementValue = downloadAdd / VersionData.Libraries.Count; // progress bar goes smth
-                Arguments += "-Djava.library.path=" + pathbutimsad;
+                Arguments += " -Djava.library.path=" + pathbutimsad;
                 Arguments += " -Dminecraft.client.jar=" + appData + "\\.mcdotnet\\versions\\" + Version + "\\" + Version + ".jar";
                 Arguments += " -cp ";
                 string versionPath = appData + "\\.mcdotnet\\versions\\" + Version + "\\";
@@ -100,7 +100,7 @@ namespace McDotNet
                             {
                                 await ChangeProgress(progress: newBarValue);
                             }
-                            Arguments += versionPath + Version + ".jar";
+                            
                         }
                         else
                         {
@@ -109,24 +109,39 @@ namespace McDotNet
                             /// This is retarded, Why do you put DLLs in JAR files?!
                             /// RETARDE
                             /// </rant>
-                            int index = url.DownloadUrl.LastIndexOf("/");
-                            CreateDirectoryIfNotPresent(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp");
-                            await downloader.DownloadFileTaskAsync(url, appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp\\" + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)));
-                            ZipFile.ExtractToDirectory(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp\\" + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)), appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\");
+                            /// 
                             if (Directory.Exists(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\META-INF"))
                             {
                                 Directory.Delete(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\META-INF", true);
                             }
-                            
+                            int index = url.DownloadUrl.LastIndexOf("/");
+                            CreateDirectoryIfNotPresent(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp");
+                            await downloader.DownloadFileTaskAsync(url, appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp\\" + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)));
+                            try
+                            {
+                                ZipFile.ExtractToDirectory(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp\\" + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)), appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\");
+                            } catch
+                            {
+                                //dont care
+                            }
+                            if (Directory.Exists(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\META-INF"))
+                            {
+                                Directory.Delete(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\META-INF", true);
+                            }
+
                         }
                     }
                 }
-                Arguments += " -Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
+                Arguments += versionPath + Version + ".jar";
                 string loggerPath = appData + "\\.mcdotnet\\versions\\" + Version + "\\logger\\";
                 CreateDirectoryIfNotPresent(loggerPath);
                 await downloader.DownloadFileTaskAsync("https://launchermeta.mojang.com/mc/log_configs/client-1.12.xml/ef4f57b922df243d0cef096efe808c72db042149/client-1.12.xml",
                     loggerPath + Version + ".xml");
                 Arguments += " -Dlog4j.configurationFile=" + loggerPath + Version + ".xml";
+                if (Directory.Exists(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp"))
+                {
+                    Directory.Delete(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp", true);
+                }
                 await ChangeProgress("Downloading Minecraft...", StatusBar.Value + 0.25);
                 string minecraftUrl = "http://s3.amazonaws.com/Minecraft.Download/versions/" + Version + "/" + Version + ".jar";
                 if (!File.Exists(GetCompletePath(minecraftUrl,versionPath)))
@@ -166,7 +181,7 @@ namespace McDotNet
                 Minecraft.StartInfo.FileName = "javaw.exe"; //not the full application path
                 Minecraft.StartInfo.Arguments = Arguments;
                 await ChangeProgress("Starting!", StatusBar.Value + 7);
-
+                Console.WriteLine(Arguments);
                 Minecraft.Start();
                 await ChangeProgress("Success, Enjoy your game", 100);
 
