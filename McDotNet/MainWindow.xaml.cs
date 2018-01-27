@@ -113,8 +113,12 @@ namespace McDotNet
                             CreateDirectoryIfNotPresent(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp");
                             await downloader.DownloadFileTaskAsync(url, appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp\\" + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)));
                             ZipFile.ExtractToDirectory(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp\\" + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)), appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\");
-
+                            if (Directory.Exists(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\META-INF"))
+                            {
+                                Directory.Delete(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\META-INF", true);
                             }
+                            
+                        }
                     }
                 }
                 Arguments += " -Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
