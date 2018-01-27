@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using Newtonsoft.Json;
 using System.Net;
 using McDotNet;
+using System.IO.Compression;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
@@ -108,7 +109,12 @@ namespace McDotNet
                             /// This is retarded, Why do you put DLLs in JAR files?!
                             /// RETARDE
                             /// </rant>
-                        }
+                            int index = url.DownloadUrl.LastIndexOf("/");
+                            CreateDirectoryIfNotPresent(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp");
+                            await downloader.DownloadFileTaskAsync(url, appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp\\" + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)));
+                            ZipFile.ExtractToDirectory(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp\\" + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)), appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\");
+
+                            }
                     }
                 }
                 Arguments += " -Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
