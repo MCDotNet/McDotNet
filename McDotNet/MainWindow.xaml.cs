@@ -171,6 +171,8 @@ namespace McDotNet
                 }
                 else
                 {
+                    Arguments += " --uuid " + Guid.NewGuid().ToString().Replace("-", "");
+                    Arguments += " --accessToken \" \" ";
                     Arguments += " --username " + LoginData.Username;
                     await ChangeProgress(progress: StatusBar.Value + 5);
                 }
