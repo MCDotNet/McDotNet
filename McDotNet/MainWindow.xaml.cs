@@ -50,6 +50,7 @@ namespace McDotNet
         private string Version { get; set; } = "1.12.2";
         private Data.MinecraftVersion VersionData { get; set; }
         private bool isWorking;
+        private bool demo=false;
         private string Arguments { get; set; } = "-Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
         private async void onStart()
         {
@@ -141,6 +142,32 @@ namespace McDotNet
                         }
                     }
                 }
+                //Get assets
+                HttpResponseMessage responsio = await client.GetAsync("https://launchermeta.mojang.com/mc/game/version_manifest.json");
+                JObject versionData = JObject.Parse(await responsio.Content.ReadAsStringAsync());
+                foreach (var item in versionData["versions"])
+                {
+                   if (item["id"].ToString() == Version)
+                    {
+                        HttpResponseMessage responserino = await client.GetAsync(item["url"].ToString());
+                        JObject versionDatao = JObject.Parse(await responserino.Content.ReadAsStringAsync());
+                        HttpResponseMessage pffffresponses = await client.GetAsync(versionDatao["assetIndex"]["url"].ToString());
+                        JToken assetss = JToken.Parse(await pffffresponses.Content.ReadAsStringAsync());
+                        Console.WriteLine(versionDatao["assetIndex"]["url"]);
+                        if (versionDatao["assetIndex"]["id"].ToString()=="legacy")
+                        {
+                            //legacy way of thinking :^)
+
+                        } else
+                        {
+                            foreach (var itemo in assetss)
+                            {
+                                    Console.WriteLine(itemo.ToString());
+                            }
+                        }
+                    }
+                }
+                
                 Arguments += versionPath + Version + ".jar";
                 string loggerPath = appData + "\\.mcdotnet\\versions\\" + Version + "\\logger\\";
                 CreateDirectoryIfNotPresent(loggerPath);
@@ -166,11 +193,13 @@ namespace McDotNet
                     Arguments += " --accessToken " + auth.AccessToken; //not stealing your pass ;-)
                     await ChangeProgress("Logging In...", StatusBar.Value + 0.25);
                     Arguments += " --username " + auth.SelectedProfile.Name;
-                    Arguments += " --uuid " + auth.SelectedProfile.Id;
+                    if(demo) { Arguments += " --uuid 00000000000000000000000000000000"; } else { Arguments += " --uuid " + auth.SelectedProfile.Id; }
                     await ChangeProgress("Logging In...", StatusBar.Value + 5);
                 }
                 else
                 {
+                    if (demo) { Arguments += " --uuid 00000000000000000000000000000000"; } else { Arguments += " --uuid " + Guid.NewGuid().ToString().Replace("-", ""); }
+                    Arguments += " --accessToken \" \" ";
                     Arguments += " --username " + LoginData.Username;
                     await ChangeProgress(progress: StatusBar.Value + 5);
                 }
@@ -184,7 +213,10 @@ namespace McDotNet
                 Arguments += " --assetsIndex " + VersionData.AssetIndex.Id;
                 Arguments += " --gameDir " + appData + "\\.mcdotnet";
                 Arguments += " --userType mojang --versionType release";
-
+                if(demo)
+                {
+                    Arguments += " --demo";
+                }
                 await ChangeProgress("Setting Up...", StatusBar.Value + 5);
                 Process Minecraft = new Process();
                 Minecraft.StartInfo.FileName = "javaw.exe"; //not the full application path
