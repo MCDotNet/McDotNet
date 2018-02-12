@@ -79,6 +79,8 @@
     </Compile>
     <Compile Include="Authentication.cs" />
     <Compile Include="Data\Artifact.cs" />
+    <Compile Include="Data\AssetHash.cs" />
+    <Compile Include="Data\Assets.cs" />
     <Compile Include="Data\AuthenticationHeader.cs" />
     <Compile Include="Data\AuthenticationResponse.cs" />
     <Compile Include="Data\Classifer.cs" />
