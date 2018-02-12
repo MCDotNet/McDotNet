@@ -142,6 +142,32 @@ namespace McDotNet
                         }
                     }
                 }
+                //Get assets
+                HttpResponseMessage responsio = await client.GetAsync("https://launchermeta.mojang.com/mc/game/version_manifest.json");
+                JObject versionData = JObject.Parse(await responsio.Content.ReadAsStringAsync());
+                foreach (var item in versionData["versions"])
+                {
+                   if (item["id"].ToString() == Version)
+                    {
+                        HttpResponseMessage responserino = await client.GetAsync(item["url"].ToString());
+                        JObject versionDatao = JObject.Parse(await responserino.Content.ReadAsStringAsync());
+                        HttpResponseMessage pffffresponses = await client.GetAsync(versionDatao["assetIndex"]["url"].ToString());
+                        JToken assetss = JToken.Parse(await pffffresponses.Content.ReadAsStringAsync());
+                        Console.WriteLine(versionDatao["assetIndex"]["url"]);
+                        if (versionDatao["assetIndex"]["id"].ToString()=="legacy")
+                        {
+                            //legacy way of thinking :^)
+
+                        } else
+                        {
+                            foreach (var itemo in assetss)
+                            {
+                                    Console.WriteLine(itemo.ToString());
+                            }
+                        }
+                    }
+                }
+                
                 Arguments += versionPath + Version + ".jar";
                 string loggerPath = appData + "\\.mcdotnet\\versions\\" + Version + "\\logger\\";
                 CreateDirectoryIfNotPresent(loggerPath);
