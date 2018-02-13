@@ -229,8 +229,6 @@ namespace McDotNet
             }
             PlayButton.IsEnabled = true;
             isWorking = false;
-            await Task.Run(async () =>
-            {
                 await Task.Delay(2750);
                 if (!isWorking)
                 {
@@ -239,7 +237,6 @@ namespace McDotNet
                         StatusContainer.Visibility = Visibility.Collapsed;
                     });
                 }
-            });
         }
         /// <summary>
         /// Gets the complete path on the disk drive of a download <paramref name="url"/>.
