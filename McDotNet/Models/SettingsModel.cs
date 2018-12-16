@@ -17,9 +17,9 @@ namespace McDotNet
 {
     public class SettingsModel
     {
-        public List<UserCredentials> Logins { get; set; }
+        public List<UserCredentials> Logins { get; set; } = new List<UserCredentials>();
         public bool IsOfflineMode { get; set; }
-        public List<UserProfile> Profiles { get; set; }
+        public List<UserProfile> Profiles { get; set; } = new List<UserProfile>();
         public UserProfile PreferredProfile { get; set; }
     }
 }
