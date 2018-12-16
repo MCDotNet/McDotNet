@@ -40,7 +40,8 @@ namespace McDotNet.Views
         private Data.MinecraftVersion VersionData { get; set; }
         private bool isWorking;
         private bool demo=false;
-        private string Arguments { get; set; } = "-Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
+        //dont worry mojang i wont tell intel drivers
+        private string Arguments { get; set; } = "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
         private void onStart()
         {
             Welcometxt.Content = "Hi!";
@@ -187,7 +188,7 @@ namespace McDotNet.Views
                 }
                 await ChangeProgress("Setting Up...", StatusBar.Value + 5);
                 var Minecraft = new Process();
-                Minecraft.StartInfo.FileName = "javaw.exe"; //not the full application path
+                Minecraft.StartInfo.FileName = "javaw"; //not the full application path
                 Minecraft.StartInfo.Arguments = Arguments;
                 await ChangeProgress("Starting!", StatusBar.Value + 7);
                 Console.WriteLine(Arguments);
