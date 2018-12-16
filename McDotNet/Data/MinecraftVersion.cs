@@ -16,5 +16,6 @@ namespace McDotNet.Data
         public string Id { get; set; } // version thing
         public string Assets { get; set; } // version thing
         public LoggingSystem Logging { get; set; } // log thingy
+        public string Url { get; set; }
     }
 }
