@@ -1,0 +1,59 @@
+﻿<Window x:Class="McDotNet.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:McDotNet"
+        mc:Ignorable="d mc" UseLayoutRounding="True"
+        Title="Launcher" Height="450" Width="685.87">
+    <!-- truk window -->
+    <Grid>
+        <!--élemen de bas pr metr dé control-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <!-- c la ou ya lé aktualité le truc plu gro -->
+            <RowDefinition Height="Auto" />
+            <!-- la c 1 autr row, avek isi lé bouton é tou -->
+        </Grid.RowDefinitions>
+        <Border BorderBrush="Green" BorderThickness="2" Margin="25,15">
+            <StackPanel Orientation="Vertical">
+                <Label Height="50" VerticalAlignment="Top"
+                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                       Background="#FF318131" Foreground="White"
+                       FontSize="25" FontWeight="Bold"
+                       Content="News" />
+                <TextBlock Margin="10">TODO : Add News</TextBlock>
+            </StackPanel>
+        </Border>
+
+        <!--Progress thing-->
+        <Border Grid.Row="1" BorderThickness="0,0,0,1" BorderBrush="#FF24A824" Margin="5">
+            <StackPanel x:Name="StatusContainer" Visibility="Collapsed">
+                <Label Content="Status" HorizontalAlignment="Center" x:Name="Status" />
+                <ProgressBar Height="25" Margin="5" x:Name="StatusBar" />
+            </StackPanel>
+        </Border>
+        <!--Bottom bar-->
+        <UniformGrid Columns="3" Grid.Row="2">
+            <!-- donk sa réparti lé troi élémen (stac panel, buton et label) egalmen. la il é grid.row 1 donk en ba-->
+            <StackPanel Orientation="Vertical" Margin="10,0">
+                <!--margin 10,0 sa veu dir margin gaush é droit de 10 pixel, é margin de o é en ba de 0 pixel-->
+                <ComboBox />
+                <UniformGrid Columns="3" Margin="0,5,0,1">
+                    <Button Content="Save" Margin="0,0,5,0" />
+                    <!--margin a droit 5-->
+                    <Button Content="Edit" Margin="0,0,5,0" />
+                    <!--margin a droit 5-->
+                    <Button Content="Create" />
+                    <!--pa besoin margin-->
+                </UniformGrid>
+            </StackPanel>
+            <Button Content="Play" Margin="15,5" Click="Button_ClickAsync" x:Name="PlayButton" />
+            <!--margin horizontal 15 (gaush é droit), margin vertikal (o é ba) 5-->
+            <Label Content="Welcome, {USER}." x:Name="Welcometxt" HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
+            <!--sa c ke de langlé c fasil-->
+        </UniformGrid>
+    </Grid>
+</Window>

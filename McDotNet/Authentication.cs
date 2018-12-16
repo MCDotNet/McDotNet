@@ -1,12 +1,8 @@
-﻿using McDotNet.Data;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using McDotNet.Data;
+using Newtonsoft.Json;
 
 namespace McDotNet
 {
@@ -14,7 +10,7 @@ namespace McDotNet
     {
         public static async Task<AuthenticationResponse> Login(string user, string password)
         {
-            string request = JsonConvert.SerializeObject(new AuthenticationHeader(user, password).ConvertForJson());
+            var request = JsonConvert.SerializeObject(new AuthenticationHeader(user, password).ConvertForJson());
             using (var authService = new HttpClient())
             {
                 var response = await authService.PostAsync(
