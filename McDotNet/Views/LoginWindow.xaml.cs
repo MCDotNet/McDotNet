@@ -15,10 +15,15 @@ namespace McDotNet.Views
             InitializeComponent();
         }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        private void RememberMe_Checked(object sender, RoutedEventArgs e)
         {
             
         }
+        
+        private void OfflineMode_Checked(object sender, RoutedEventArgs e)
+        {
+            
+        } 
         
         private void Button_Click(object sender, RoutedEventArgs e)
         {

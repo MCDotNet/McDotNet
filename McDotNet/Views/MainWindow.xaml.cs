@@ -130,32 +130,6 @@ namespace McDotNet.Views
                         }
                     }
                 }
-                //Get assets
-                var responsio = await client.GetAsync("https://launchermeta.mojang.com/mc/game/version_manifest.json");
-                var versionData = JObject.Parse(await responsio.Content.ReadAsStringAsync());
-                foreach (var item in versionData["versions"])
-                {
-                   if (item["id"].ToString() == Version)
-                    {
-                        var responserino = await client.GetAsync(item["url"].ToString());
-                        var versionDatao = JObject.Parse(await responserino.Content.ReadAsStringAsync());
-                        var pffffresponses = await client.GetAsync(versionDatao["assetIndex"]["url"].ToString());
-                        var assetss = JToken.Parse(await pffffresponses.Content.ReadAsStringAsync());
-                        Console.WriteLine(versionDatao["assetIndex"]["url"]);
-                        if (versionDatao["assetIndex"]["id"].ToString()=="legacy")
-                        {
-                            //legacy way of thinking :^)
-
-                        } else
-                        {
-                            foreach (var itemo in assetss)
-                            {
-                                    Console.WriteLine(itemo.ToString());
-                            }
-                        }
-                    }
-                }
-                
                 Arguments += versionPath + Version + ".jar";
                 var loggerPath = appData + "\\.mcdotnet\\versions\\" + Version + "\\logger\\";
                 CreateDirectoryIfNotPresent(loggerPath);
