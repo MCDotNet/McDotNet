@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.IO.Compression;
 using System.Net;
 using System.Net.Http;
@@ -40,7 +41,7 @@ namespace McDotNet.Views
         private bool isWorking;
         private bool demo=false;
         private string Arguments { get; set; } = "-Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
-        private async void onStart()
+        private void onStart()
         {
             Welcometxt.Content = "Hi!";
         }
@@ -51,10 +52,16 @@ namespace McDotNet.Views
             PlayButton.IsEnabled = false;
             isWorking = true;
             StatusContainer.Visibility = Visibility.Visible;
+            await ChangeProgress("Fetching Minecraft Data...", 2);
+            var lol = new HttpClient();
+            var responsefornormal = await lol.GetAsync("https://launchermeta.mojang.com/mc/game/version_manifest.json");
+            var result = JsonConvert.DeserializeObject<Data.VersionManifest>(await responsefornormal.Content.ReadAsStringAsync());
+            var versionISearchedFor = result.Versions.First(thing => thing.Id == Version);
             await ChangeProgress("Getting libraries...", 5);
            
             var client = new HttpClient();
-            var response = await client.GetAsync("https://s3.amazonaws.com/Minecraft.Download/versions/" + Version + "/" + Version + ".json");
+            Console.WriteLine(versionISearchedFor.Url);
+            var response = await client.GetAsync(versionISearchedFor.Url);
             if (response.IsSuccessStatusCode)
             {
                 await ChangeProgress("Deserializing libraries data...", 10);
@@ -133,7 +140,7 @@ namespace McDotNet.Views
                 Arguments += versionPath + Version + ".jar";
                 var loggerPath = appData + "\\.mcdotnet\\versions\\" + Version + "\\logger\\";
                 CreateDirectoryIfNotPresent(loggerPath);
-                await downloader.DownloadFileTaskAsync("https://launchermeta.mojang.com/mc/log_configs/client-1.12.xml/ef4f57b922df243d0cef096efe808c72db042149/client-1.12.xml",
+                await downloader.DownloadFileTaskAsync("https://launcher.mojang.com/v1/objects/ef4f57b922df243d0cef096efe808c72db042149/client-1.12.xml", //TODO: make minecraftversion parse this
                     loggerPath + Version + ".xml");
                 Arguments += " -Dlog4j.configurationFile=" + loggerPath + Version + ".xml";
                 if (Directory.Exists(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp"))
@@ -141,11 +148,10 @@ namespace McDotNet.Views
                     Directory.Delete(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp", true);
                 }
                 await ChangeProgress("Downloading Minecraft...", StatusBar.Value + 0.25);
-                var minecraftUrl = "http://s3.amazonaws.com/Minecraft.Download/versions/" + Version + "/" + Version + ".jar";
+                var minecraftUrl = VersionData.Downloads.Client.Url;
                 if (!File.Exists(GetCompletePath(minecraftUrl,versionPath)))
                 {
-                    await downloader.DownloadFileTaskAsync(minecraftUrl,
-                    versionPath + Version + ".jar");
+                    await downloader.DownloadFileTaskAsync(minecraftUrl, versionPath + Version + ".jar");
                 }
                 await ChangeProgress("Logging In...", StatusBar.Value + 0.25);
                 Arguments += " " + VersionData.MainClass + " --version " + Version;
