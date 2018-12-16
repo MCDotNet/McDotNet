@@ -13,6 +13,7 @@ namespace McDotNet.Views
         {
             DataContext = _vm;
             InitializeComponent();
+            PropertyChangedObject.RegisterWindow(this);
         }
 
         private void RememberMe_Checked(object sender, RoutedEventArgs e)
