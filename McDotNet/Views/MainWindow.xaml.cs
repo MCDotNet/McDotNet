@@ -40,8 +40,7 @@ namespace McDotNet.Views
         private Data.MinecraftVersion VersionData { get; set; }
         private bool isWorking;
         private bool demo=false;
-        //dont worry mojang i wont tell intel drivers
-        private string Arguments { get; set; } = "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
+        private string Arguments { get; set; } = "-Xmx1G -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode -XX:-UseAdaptiveSizePolicy -Xmn128M";
         private void onStart()
         {
             Welcometxt.Content = "Hi!";
@@ -49,13 +48,11 @@ namespace McDotNet.Views
         private async void Button_ClickAsync(object sender, RoutedEventArgs e)
         {
             onStart();
-            var downloader = new WebClient();
             PlayButton.IsEnabled = false;
             isWorking = true;
             StatusContainer.Visibility = Visibility.Visible;
             await ChangeProgress("Fetching Minecraft Data...", 2);
-            var lol = new HttpClient();
-            var responsefornormal = await lol.GetAsync("https://launchermeta.mojang.com/mc/game/version_manifest.json");
+            var responsefornormal = await NetworkManager.NetworkClient.GetAsync("https://launchermeta.mojang.com/mc/game/version_manifest.json");
             var result = JsonConvert.DeserializeObject<Data.VersionManifest>(await responsefornormal.Content.ReadAsStringAsync());
             var versionISearchedFor = result.Versions.First(thing => thing.Id == Version);
             await ChangeProgress("Getting libraries...", 5);
@@ -99,7 +96,7 @@ namespace McDotNet.Views
                                     await ChangeProgress("Downloading " + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)), StatusBar.Value + incrementValue);
                                     downloadingAlready = true;
                                 }
-                                await downloader.DownloadFileTaskAsync(url, completePath);
+                                await NetworkManager.DownloadToFileAsync(url, completePath);
                             }
                             else
                             {
@@ -121,7 +118,7 @@ namespace McDotNet.Views
                             }
                             var index = url.DownloadUrl.LastIndexOf("/");
                             CreateDirectoryIfNotPresent(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp");
-                            await downloader.DownloadFileTaskAsync(url, appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp\\" + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)));
+                            await NetworkManager.DownloadToFileAsync(url, appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp\\" + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)));
                             try
                             {
                                 ZipFile.ExtractToDirectory(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp\\" + url.DownloadUrl.Substring(index + 1, (url.DownloadUrl.Length - index - 1)), appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\");
@@ -141,7 +138,7 @@ namespace McDotNet.Views
                 Arguments += versionPath + Version + ".jar";
                 var loggerPath = appData + "\\.mcdotnet\\versions\\" + Version + "\\logger\\";
                 CreateDirectoryIfNotPresent(loggerPath);
-                await downloader.DownloadFileTaskAsync("https://launcher.mojang.com/v1/objects/ef4f57b922df243d0cef096efe808c72db042149/client-1.12.xml", //TODO: make minecraftversion parse this
+                await NetworkManager.DownloadToFileAsync("https://launcher.mojang.com/v1/objects/ef4f57b922df243d0cef096efe808c72db042149/client-1.12.xml", //TODO: make minecraftversion parse this
                     loggerPath + Version + ".xml");
                 Arguments += " -Dlog4j.configurationFile=" + loggerPath + Version + ".xml";
                 if (Directory.Exists(appData + "\\.mcdotnet\\versions\\" + Version + "\\natives\\tmp"))
@@ -152,7 +149,7 @@ namespace McDotNet.Views
                 var minecraftUrl = VersionData.Downloads.Client.Url;
                 if (!File.Exists(GetCompletePath(minecraftUrl,versionPath)))
                 {
-                    await downloader.DownloadFileTaskAsync(minecraftUrl, versionPath + Version + ".jar");
+                    await NetworkManager.DownloadToFileAsync(minecraftUrl, versionPath + Version + ".jar");
                 }
                 await ChangeProgress("Logging In...", StatusBar.Value + 0.25);
                 Arguments += " " + VersionData.MainClass + " --version " + Version;
@@ -187,9 +184,8 @@ namespace McDotNet.Views
                     Arguments += " --demo";
                 }
                 await ChangeProgress("Setting Up...", StatusBar.Value + 5);
-                var Minecraft = new Process();
-                Minecraft.StartInfo.FileName = "javaw"; //not the full application path
-                Minecraft.StartInfo.Arguments = Arguments;
+                var Minecraft = new Process {StartInfo = {FileName = "javaw.exe", Arguments = Arguments}};
+                //not the full application path
                 await ChangeProgress("Starting!", StatusBar.Value + 7);
                 Console.WriteLine(Arguments);
                 Minecraft.Start();

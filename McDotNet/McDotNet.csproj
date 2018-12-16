@@ -66,9 +66,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\LatestVersions.cs" />
+    <Compile Include="Data\ManifestVersion.cs" />
     <Compile Include="Data\VersionManifest.cs" />
     <Compile Include="Models\SettingsModel.cs" />
     <Compile Include="Models\UserProfile.cs" />
+    <Compile Include="NetworkManager.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Page Include="Views\LoginWindow.xaml">
       <SubType>Designer</SubType>
