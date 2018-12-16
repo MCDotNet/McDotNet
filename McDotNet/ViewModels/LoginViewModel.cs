@@ -56,6 +56,10 @@ namespace McDotNet.ViewModels
             }
             else
             {
+                SettingsManager.Settings.TemporaryUserProfile = new UserProfileViewModel
+                {
+                    Credentials = Credentials
+                };
                 LoginData.IsOfflineMode = IsOfflineMode;
                 LoginData.Password = pass as string;
                 LoginData.Username = Credentials.Username;

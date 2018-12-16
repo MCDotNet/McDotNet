@@ -30,7 +30,7 @@ namespace McDotNet.ViewModels
                 OnPropertyChanged(nameof(IsOfflineMode));
             }
         }
-
+        public UserProfileViewModel TemporaryUserProfile { get; set; }
         private UserProfileViewModel _preferredProfileViewModel;
         public UserProfileViewModel PreferredProfile
         {
@@ -40,7 +40,7 @@ namespace McDotNet.ViewModels
                 {
                     _preferredProfileViewModel = new UserProfileViewModel(Model.PreferredProfile ?? Model.Profiles.FirstOrDefault());
                 }
-                    return _preferredProfileViewModel;
+                    return TemporaryUserProfile ?? _preferredProfileViewModel;
             }
             set
             {
