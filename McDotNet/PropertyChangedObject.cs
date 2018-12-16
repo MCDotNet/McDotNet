@@ -21,6 +21,7 @@ namespace McDotNet
         {
             lock (IsChanging)
             {
+                if (!Contexts.Any()) PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
                 foreach (var context in Contexts)
                 {
                     if (context.Dispatcher == Dispatcher.CurrentDispatcher)
