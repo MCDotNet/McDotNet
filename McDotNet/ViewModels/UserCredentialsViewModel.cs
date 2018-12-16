@@ -45,5 +45,10 @@ namespace McDotNet.ViewModels
                 OnPropertyChanged(nameof(IsOffline));
             }
         }
+
+        public static bool operator ==(UserCredentialsViewModel first, UserCredentialsViewModel second) =>
+            first?.Model == second?.Model || ReferenceEquals(first, second);
+        public static bool operator !=(UserCredentialsViewModel first, UserCredentialsViewModel second) =>
+            !(first == second);
     }
 }

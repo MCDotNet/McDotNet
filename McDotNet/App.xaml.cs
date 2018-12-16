@@ -7,5 +7,9 @@ namespace McDotNet
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            Exit += (sender, args) => { SettingsManager.SaveSettings(); };
+        }
     }
 }

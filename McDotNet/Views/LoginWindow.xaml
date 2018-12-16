@@ -124,7 +124,7 @@
             <StackPanel HorizontalAlignment="Center">
                 <CheckBox Content="Remember Me" x:Name="RememberMe" IsChecked="{Binding RememberMe}"
                           Margin="0,5" Grid.Row="1" HorizontalAlignment="Left" />
-                <CheckBox Content="Offline Mode" x:Name="OfflineMode" Margin="0,5,0,2" HorizontalAlignment="Left" />
+                <CheckBox Content="Offline Mode" x:Name="OfflineMode" Margin="0,5,0,2" HorizontalAlignment="Left" IsChecked="{Binding IsOfflineMode}"/>
             </StackPanel>
             <Border BorderBrush="#FFB9030B" BorderThickness="2" Background="#FFEED150"
                     Margin="15,0" Padding="2" CornerRadius="0"

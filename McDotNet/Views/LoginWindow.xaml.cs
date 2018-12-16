@@ -24,6 +24,7 @@ namespace McDotNet.Views
         {
             _vm.ProcessLogin(Pass.Password);
             Properties.Settings.Default.Save();
+            SettingsManager.SaveSettings();
             this.Close();
         }
     }

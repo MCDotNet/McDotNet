@@ -50,6 +50,8 @@ namespace McDotNet.ViewModels
                         Username = LoginData.Username = Credentials.Username
                     }
                 };
+                SettingsManager.Settings.Profiles.Add(profile);
+                SettingsManager.Settings.PreferredProfile = profile;
                 Properties.Settings.Default.remember = RememberMe;
             }
             else

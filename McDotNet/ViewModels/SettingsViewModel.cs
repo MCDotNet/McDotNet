@@ -13,7 +13,11 @@ namespace McDotNet.ViewModels
         public SettingsViewModel(SettingsModel model = null) : base(model)
         {
             Logins = new ObservableViewModelCollection<UserCredentialsViewModel, UserCredentials>(Model.Logins, u => new UserCredentialsViewModel(u));
-            Profiles = new ObservableViewModelCollection<UserProfileViewModel, UserProfile>(Model.Profiles, p => new UserProfileViewModel(p));
+            Profiles = new ObservableViewModelCollection<UserProfileViewModel, UserProfile>(Model.Profiles, p => new UserProfileViewModel(p),
+                p =>
+                {
+                    if (Logins.All(c => c != p.Credentials)) Logins.Add(p.Credentials);
+                });
         }
         public ObservableViewModelCollection<UserCredentialsViewModel, UserCredentials> Logins { get; } 
         public ObservableViewModelCollection<UserProfileViewModel, UserProfile> Profiles { get; }
